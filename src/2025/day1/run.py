@@ -15,9 +15,9 @@ class code:
         self.direction = instructions[0]
         self.length = int(instructions[1:])
 
-    def turning(self, pos):
+    def turning(self, pos, turns):
         new_point = pos + self.length if self.direction == "R" else pos - self.length
-        turns = abs(floor(pos / TOTAL_SIZE) - floor(new_point / TOTAL_SIZE))
+        turns += abs(floor(pos / TOTAL_SIZE) - floor(new_point / TOTAL_SIZE))
         turns += (new_point % TOTAL_SIZE == 0) and self.direction == "L"
         turns -= pos == 0 and self.direction == "L"
         return new_point % TOTAL_SIZE, turns
@@ -29,14 +29,14 @@ class day1(riddle):
 
     def a(self):
         x = START_POINT
-        print(sum(1 for line in self.lines if (x := code(line).turning(x)[0]) == 0))
+        print(sum(1 for line in self.lines if (x := code(line).turning(x, 0)[0]) == 0))
 
     def b(self):
         x = START_POINT
         zeros = 0
+
         for line in self.lines:
-            x, new_zeros = code(line).turning(x)
-            zeros += new_zeros
+            x, zeros = code(line).turning(x, zeros)
 
         print(zeros)
 
