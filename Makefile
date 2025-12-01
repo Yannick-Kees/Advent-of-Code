@@ -19,6 +19,10 @@ help:
 .PHONY: all
 all: install
 
+push:
+	git add .
+	git commit -m "$(TAG)"
+	git push origin main
 
 # Create conda environment and install requirements
 install:
