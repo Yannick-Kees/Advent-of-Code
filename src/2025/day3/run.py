@@ -5,6 +5,7 @@
 
 from src.base_class import riddle
 
+
 def find_largest_joltage_recursive(sequence, k=12):
     if k == 0:
         return ""
