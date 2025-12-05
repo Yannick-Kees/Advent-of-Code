@@ -13,5 +13,5 @@ class riddle:
         self._load_riddle()
 
     def _load_riddle(self) -> None:
-        filename = self.path / self.mode
-        self.lines = [line.split("\n")[0] for line in Path.open(filename, encoding="utf-8")]
+        self.filename = self.path / self.mode
+        self.lines = [line.split("\n")[0] for line in Path.open(self.filename, encoding="utf-8")]
