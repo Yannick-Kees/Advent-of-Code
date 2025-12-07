@@ -1,0 +1,44 @@
+import numpy as np
+
+my_dict = { "^": -1, "S": 1, ".": 0 }
+input_lines = np.array([[my_dict[y] for y in list(x.replace("\n", ""))] for x in open("day7/full.txt", "r").readlines()])
+
+splits = 0
+for i,line in enumerate(input_lines[1:]):
+    for j, _ in enumerate(line):
+        if input_lines[i, j]>=1:
+            if input_lines[i+1, j]==-1:
+                splits += 1
+                input_lines[i+1, j+1] += input_lines[i, j]  
+                input_lines[i+1, j-1] += input_lines[i, j] 
+            else: 
+                input_lines[i+1, j] += input_lines[i, j]
+
+print(splits)
+print( sum([ int(x) for x in input_lines[-1] ]) )
+
+
+import numpy as np
+from math import prod
+matrix =np.array([ list((filter(None,(x.replace("  ", " ").split(" "))))) for x in open("day6/full.txt").read().splitlines()]).T
+
+class math_code():
+    def __init__(self, line):
+        self.add = line[-1] == "+"
+        self.values = map(int, (line[:-1]))
+    def compute(self):
+        return sum(self.values) if self.add else prod(self.values)
+     
+print( sum([math_code(x).compute() for x in matrix]))   
+     
+matrix =np.array([ list(x) for x in open("day6/full.txt").read().splitlines()]).T
+blank_rows = np.where(np.all(matrix == ' ', axis=1))[0]
+splits = np.split(matrix, blank_rows + 1)
+
+class new_code(math_code):
+    def __init__(self, line):
+        self.add = line[0][-1] == "+"
+        self.values = list(map(int, [''.join(l[:-1]) for l in line if ''.join(l[:-1]).replace(" ","")!='' ])  )
+
+    
+print(sum([new_code(s).compute() for s in splits]))   
