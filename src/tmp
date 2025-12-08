@@ -42,3 +42,96 @@ class new_code(math_code):
 
     
 print(sum([new_code(s).compute() for s in splits]))   
+
+
+
+
+
+
+
+-----------------
+
+class Point():
+    def __init__(self, line ):
+        x, y, z = line.replace("\n","").split(",")
+        self.x = int(x)
+        self.y = int(y)
+        self.z = int(z)
+    def __repr__(self):
+        return f"Point({self.x}, {self.y}, {self.z})"
+    
+    def __sub__(self, other):
+        return abs(self.x - other.x)**2  + abs(self.y - other.y)**2 + abs(self.z - other.z)**2
+
+    def __eq__(self, other):
+        if not isinstance(other, Point):
+            return False
+        return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def __hash__(self):
+        return hash((self.x, self.y, self.z))
+
+class circuit():
+    def __init__(self):
+        self.connections = []
+
+    def add_connection(self, junction: Point):
+        self.connections.append(junction)
+    
+    def get_length(self):
+        return len(self.connections)
+
+    def __repr__(self):
+        return f"Junction() with connections: {len(self.connections)}" 
+    
+    def __add__(self, other):
+        new_circuit = circuit()
+        new_circuit.connections = self.connections + other.connections
+        return new_circuit
+    
+points = [Point(line) for line in open("day8/full.txt").read().splitlines()]
+
+lookup_table = {}
+for p in points:
+    c = circuit()
+    c.add_connection(p)
+    lookup_table[p] = c
+
+
+distances = [ (p1, p2, p1 - p2) for i, p1 in enumerate(points) for j, p2 in enumerate(points) if i<j ]
+distances = sorted(distances, key=lambda x: x[2])
+
+def a():
+    for p1, p2, _ in distances[:1000]:
+        if lookup_table[p1] is not lookup_table[p2]:
+            new_ciruit = lookup_table[p1] + lookup_table[p2] 
+            for p in new_ciruit.connections:
+                lookup_table[p] = new_ciruit
+
+    print(lookup_table)
+    unique_circuits = set()
+    for c in lookup_table.values():
+        unique_circuits.add( c.get_length() )
+        
+    r = sorted(unique_circuits)
+    print(r[-1] , r[-2] , r[-3])
+    print(r[-1] * r[-2] * r[-3]) 
+    
+def b():
+    for p1, p2, _ in distances:
+        if lookup_table[p1] is not lookup_table[p2]:
+            new_ciruit = lookup_table[p1] + lookup_table[p2] 
+            for p in new_ciruit.connections:
+                lookup_table[p] = new_ciruit
+
+            unique_circuits = set()
+            for c in lookup_table.values():
+                unique_circuits.add( id(c) )
+            if len(unique_circuits) == 1:
+                print("Done")
+                print(p1.x * p2.x)
+                break
+# 
+#  117000
+# 8368033065 b
+b()
