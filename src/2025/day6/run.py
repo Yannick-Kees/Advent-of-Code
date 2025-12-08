@@ -39,7 +39,7 @@ class day(riddle):
         super().__init__(day, mode)
 
     def a(self):
-        print(open("src/2025/day6/test.txt"))
+        print(Path.open(Path("src/2025/day6/test.txt")))
         print(self.lines)
         matrix = np.array(
             [list(filter(None, (x.replace("  ", " ").split(" ")))) for x in self.lines],
