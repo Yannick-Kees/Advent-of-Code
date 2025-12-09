@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: MIT
 
 from math import prod
-from pathlib import Path
 
 import numpy as np
 
@@ -39,15 +38,14 @@ class day(riddle):
         super().__init__(day, mode)
 
     def a(self):
-        print(Path.open(Path("src/2025/day6/test.txt")))
-        print(self.lines)
+        print([len(list(filter(None, (x.replace("  ", " ").split(" "))))) for x in self.lines])
         matrix = np.array(
             [list(filter(None, (x.replace("  ", " ").split(" ")))) for x in self.lines],
         ).T
         print(sum([math_code(x).compute() for x in matrix]))
 
     def b(self):
-        matrix = np.array([list(x) for x in Path.open("src/2025/day6/full.txt").readlines()]).T
+        matrix = np.array([list(x) for x in self.lines]).T
         blank_rows = np.where(np.all(matrix == " ", axis=1))[0]
         splits = np.split(matrix, blank_rows + 1)
         print(sum([new_code(s).compute() for s in splits]))
@@ -56,4 +54,4 @@ class day(riddle):
 if __name__ == "__main__":
     x = day(day=6, mode="full")
     x.a()
-    # x.b()
+    x.b()
