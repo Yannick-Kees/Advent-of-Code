@@ -21,6 +21,7 @@ classifiers = [
 ]
 dependencies = [
     "numpy>=2.0.2",
+    "tqdm>=4.67.1",
 ]
 
 [build-system]
@@ -42,7 +43,7 @@ fix = true
 [tool.ruff.lint]
 select = ["F401","F841", "E", "F", "W", "I", "COM", "UP", "B", "A", "PTH"]
 extend-select = ["UP"]
-ignore = ["T201", "D203", "D213"]  
+ignore = ["T201", "D203", "D213","B019"]  
 
 [dependency-groups]
 dev = [

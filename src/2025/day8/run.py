@@ -26,13 +26,15 @@ class day(riddle):
     def __init__(self, day, mode):
         super().__init__(day, mode)
         self.points = [Point(line) for line in self.lines]
-        distances = [
-            (p1, p2, p1 - p2)
-            for i, p1 in enumerate(self.points)
-            for j, p2 in enumerate(self.points)
-            if i < j
-        ]
-        self.distances = sorted(distances, key=lambda x: x[2])
+        self.distances = sorted(
+            [
+                (p1, p2, p1 - p2)
+                for i, p1 in enumerate(self.points)
+                for j, p2 in enumerate(self.points)
+                if i < j
+            ],
+            key=lambda x: x[2],
+        )
 
     def clear_look_up_table(self):
         self.lookup_table = {p: circuit([p]) for p in self.points}
@@ -46,7 +48,7 @@ class day(riddle):
                     self.lookup_table[p] = new_ciruit
 
                 unique_circuits = {id(c) for c in self.lookup_table.values()}
-                
+
                 if len(unique_circuits) == 1:
                     print(p1.x * p2.x)
                     break
@@ -65,5 +67,5 @@ if __name__ == "__main__":
     x.a()
     x.b()
 
-#  117000
-# 8368033065 b
+# 117000
+# 8368033065
