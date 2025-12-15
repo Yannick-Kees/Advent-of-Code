@@ -1,10 +1,3 @@
-# PythonTemplate
-Python Template for DevOps Workflow
+# Advent of Code
+Advent of Code solutions by me :)
 
-
-### How to use
-
-Run
-```
-uvx copier copy gh:Yannick-Kees/PythonTemplate . --trust
-```
